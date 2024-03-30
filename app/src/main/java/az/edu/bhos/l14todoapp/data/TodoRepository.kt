@@ -16,8 +16,11 @@ class TodoRepositoryImpl(
 
     override suspend fun syncTodos() {
         val todoList = remoteData.getTodos()
-        // TODO save to local
+        todoList.forEach { todoEntity ->
+            localData.save(todoEntity.toEntity())
+        }
     }
+
 
     override fun observeTodoEntries(): Flow<List<TodoEntity>> {
         return localData.observeTodoItems()
